@@ -4,7 +4,7 @@ services:
   app:
     build: .
     ports:
-      - "8001:8001"
+      - "5001:5001"
     environment:
       - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
     depends_on:
