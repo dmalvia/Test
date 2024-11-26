@@ -20,13 +20,26 @@ jobs:
 
       # Step 3 : Build Docker image
       - name: Build Docker image
-        run: docker build -t nodejs-postgres-crud-app:latest .
+        run: docker build -t nodejs-postgres-crud-app:{{ github.sha }} .
 
-      # Step 4 : Stop and remove existing containers
-      - name: Stop running containers
+      # Step 4 : Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: dipeshlohar348
+          password: Welcome@123
+
+      # Step 5 : Push the Docker Image to Docker Hub
+      - name: Push Docker image
         run: |
-          docker compose down || true
+          docker tag nodejs-postgres-crud-app:{{ github.sha }} dipeshlohar348/nodejs-postgres-crud-app:${{ github.sha }}
+          docker push dipeshlohar348/nodejs-postgres-crud-app:${{ github.sha }}
 
-      #Step 5 : Deplo with Docker Compose
-      - name: Deploy application
-        run: docker compose up -d
+      # # Step 4 : Stop and remove existing containers
+      # - name: Stop running containers
+      #   run: |
+      #     docker compose down || true
+
+      # #Step 5 : Deplo with Docker Compose
+      # - name: Deploy application
+      #   run: docker compose up -d
