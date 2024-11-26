@@ -1,0 +1,18 @@
+docker --version /* Check version */
+
+docker pull postgres /* pull postgres image */
+
+Run postgres in docket container */
+docker run --name postgres-db -e POSTGRES_PASSWORD=admin -p 5432:5432 -d postgres
+--name postgres-db: The name of the container.
+-e POSTGRES_PASSWORD=mysecretpassword: Set the PostgreSQL password (replace mysecretpassword with your own).
+-p 5432:5432: Map the PostgreSQL port 5432 from the container to your local machine.
+-d: Run the container in detached mode.
+
+docker ps
+
+docker inspect 62bdae977983
+
+Connect to PostgreSQL Container  
+
+docker exec -it postgres-db psql -U postgres 

@@ -1,0 +1,32 @@
+name: CI/CD for Node.js CRUD App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1 : Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2 : Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3 : Build Docker image
+      - name: Build Docker image
+        run: docker build -t nodejs-postgres-crud-app:latest .
+
+      # Step 4 : Stop and remove existing containers
+      - name: Stop running containers
+        run: |
+          docker compose down || true
+
+      #Step 5 : Deplo with Docker Compose
+      - name: Deploy application
+        run: docker compose up -d
