@@ -14,13 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2 : Set up Docker
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
-
       # Step 3 : Build Docker image
       - name: Build Docker image
-        run: docker buildx build --tag nodejs-postgres-crud-app:{{ github.sha }} .
+        run: docker build -t nodejs-postgres-crud-app:${{ github.sha }} .
 
       # Step 4 : Login to Docker Hub
       - name: Login to Docker Hub
@@ -32,7 +28,7 @@ jobs:
       # Step 5 : Push the Docker Image to Docker Hub
       - name: Push Docker image
         run: |
-          docker tag nodejs-postgres-crud-app:{{ github.sha }} dipeshlohar348/nodejs-postgres-crud-app:${{ github.sha }}
+          docker tag nodejs-postgres-crud-app:${{ github.sha }} dipeshlohar348/nodejs-postgres-crud-app:${{ github.sha }}
           docker push dipeshlohar348/nodejs-postgres-crud-app:${{ github.sha }}
 
       # # Step 4 : Stop and remove existing containers
